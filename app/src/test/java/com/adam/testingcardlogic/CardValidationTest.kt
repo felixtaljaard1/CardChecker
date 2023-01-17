@@ -53,14 +53,20 @@ class CardValidationTest {
 
     @Test
     fun `verify the date is invalid within a CARD`() {
-        val sampleCard = "1234-1231-3426-0224"
+        val sampleCard = "1111-1231-3426-1234"
         val sampleExpiryDate = "06/24"
-//        val sampleExpiryDate = "024"
-//        val sampleExpiryDate = "0/4"
-//        val sampleExpiryDate = "13/19"
-//        val sampleExpiryDate = "06/18"
+        val sampleExpiryDate2 = "024"
+        val sampleExpiryDate3 = "0/4"
+        val sampleExpiryDate4 = "13/19"
+        val sampleExpiryDate5 = "06/18"
+
 
         assertFalse(cardValidation.validateDate(sampleExpiryDate, sampleCard))
+        assertFalse(cardValidation.validateDate(sampleExpiryDate2, sampleCard))
+        assertFalse(cardValidation.validateDate(sampleExpiryDate3, sampleCard))
+        assertFalse(cardValidation.validateDate(sampleExpiryDate4, sampleCard))
+        assertFalse(cardValidation.validateDate(sampleExpiryDate5, sampleCard))
+
     }
 
 

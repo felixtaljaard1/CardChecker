@@ -34,14 +34,22 @@ class CardValidation {
         || card.take(4) == AMEX
     ) {
         validateDate(expiryDate, card) && validateValidCardLength(card) && lettersCheck(card)
+                && validateCorrectDate(expiryDate)
     } else {
         false
     }
 
 
+
     // TDD
     fun validateDate(expiryDate: String, card: String) =
         expiryDate.replace("/", "") == card.takeLast(4)
+
+
+    private fun validateCorrectDate(expiryDate: String) =
+         ((expiryDate.take(2).toInt() < 13)
+                 && (expiryDate.takeLast(2).toInt() > 22)
+                 && (expiryDate.split("").component3() == "/"))
 
 
     private fun validateValidCardLength(card: String) =
