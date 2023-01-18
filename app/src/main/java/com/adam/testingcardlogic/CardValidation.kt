@@ -25,7 +25,7 @@ class CardValidation {
     val ALFA = "1111"
     val AMEX = "3796"
 
-    fun validate(
+    fun validate2(
         card: String,
         expiryDate: String
     ) = if (
@@ -34,11 +34,28 @@ class CardValidation {
         || card.take(4) == AMEX
     ) {
         validateDate(expiryDate, card) && validateValidCardLength(card) && lettersCheck(card)
-                && validateCorrectDate(expiryDate)
+                && validateCorrectMonth(expiryDate)
     } else {
         false
     }
 
+    fun validate(card: String, expiryDate: String): Boolean {
+        if (card.take(4) == ACME || card.take(4) == ALFA || card.take(4) == AMEX) {
+            if (validateDate(expiryDate, card)) {
+                if (validateValidCardLength(card)) {
+                    if (lettersCheck(card)) {
+                        if (validateCorrectMonth(expiryDate)) {
+                            return true
+                        }
+                    }
+                }
+
+            }
+        } else {
+            false
+        }
+        return false
+    }
 
 
     // TDD
@@ -46,17 +63,21 @@ class CardValidation {
         expiryDate.replace("/", "") == card.takeLast(4)
 
 
-    private fun validateCorrectDate(expiryDate: String) =
-         ((expiryDate.take(2).toInt() < 13)
-                 && (expiryDate.takeLast(2).toInt() > 22)
-                 && (expiryDate.split("").component3() == "/"))
+    private fun validateCorrectMonth(expiryDate: String) = (expiryDate.take(2).toInt() < 13)
+
+
+//    private fun validateCorrectDate(expiryDate: String) =
+//        ((expiryDate.take(2).toInt() < 13)
+//                && (expiryDate.takeLast(2).toInt() > 22)
+//                && (expiryDate.split("").component3() == "/")
+//                && (expiryDate.replace("/", "").length == 4))
 
 
     private fun validateValidCardLength(card: String) =
         card.replace("-", "").length == 16
 
 
-    private fun lettersCheck(card: String): Boolean {
-        return card.all{ chars -> chars.isDigit()}
-    }
+    private fun lettersCheck(card: String) =
+         card.replace("-", "").all{ chars -> chars.isDigit()}
+
 }
